@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KodeLab - Образовательная платформа</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark.css">
+</head>
+<body>
+    <!-- ШАПКА -->
+    <header class="site-header">
+        <div class="header-title">📚 KodeLab</div>
+        <div class="header-gallery">
+            <div class="gallery-item"><img src="img/optimize.webp" alt="Башня"></div>
+            <div class="gallery-item"><img src="img/00839_20130828_003553.jpg" alt="Собор"></div>
+            <div class="gallery-item"><img src="img/1439151.jpg" alt="Монастырь"></div>
+            <div class="gallery-item"><img src="img/img55f0387f7a3d5_1441806463_25.jpg" alt="Колледж"></div>
+        </div>
+        <button class="burger-btn" id="burgerBtn">
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+        </button>
+    </header>
+
+    <!-- МЕНЮ -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">Навигация</div>
+        <div class="menu-items">
+            <a href="#" class="menu-item" onclick="showMainPage(); toggleMenu();">🏠 Главная</a>
+            <a href="#" class="menu-item" onclick="showTeacherPage(); toggleMenu();">👨‍🏫 Преподаватель</a>
+            <a href="#" class="menu-item" onclick="showYurichPage(); toggleMenu();">👨‍💻 Юрич</a>
+            <a href="#" class="menu-item" onclick="showStudentPage(); toggleMenu();">👨‍🎓 Студент</a>
+            <div class="menu-item" id="theme-switcher">🌙 Тёмная тема</div>
+        </div>
+    </div>
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+    <!-- ГЛАВНАЯ СТРАНИЦА (центрирование) -->
+    <div class="main-content" id="main-page">
+        <div class="button-container">
+            <h1>✨ KodeLab ✨</h1>
+            <p class="subtitle">Образовательная платформа нового поколения</p>
+            <div class="buttons">
+                <button class="role-button student-btn" onclick="showStudentPage()">👨‍🎓 Студент</button>
+                <button class="role-button teacher-btn" onclick="showTeacherPage()">👨‍🏫 Преподаватель</button>
+                <button class="role-button yurich-btn" onclick="showYurichPage()">👨‍💻 Юрич</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА ПРЕПОДАВАТЕЛЯ -->
+    <div id="teacher-page" style="display:none">
+        <div class="main-content">
+            <!-- Кабинет преподавателя с оценками -->
+            <div id="teacher-cabinet" style="display:none">
+                <div class="teacher-dashboard">
+                    <div class="portfolio-card">
+                        <div class="avatar-container">
+                            <img id="teacher-avatar" class="avatar-img" src="https://via.placeholder.com/120">
+                            <label for="teacher-avatar-upload" class="avatar-label">📷 Загрузить аватар</label>
+                            <input type="file" id="teacher-avatar-upload" accept="image/*" style="display:none">
+                        </div>
+                        <div class="info-row"><span class="info-label">👨‍🏫 Имя:</span><span id="teacher-name"></span></div>
+                        <div class="info-row"><span class="info-label">📚 Предмет:</span><span id="teacher-subject"></span></div>
+                        <div class="info-row"><span class="info-label">📧 Email:</span><span id="teacher-email"></span></div>
+                        <div class="info-row"><span class="info-label">👥 Куратор:</span><span id="teacher-curator"></span></div>
+                    </div>
+                    
+                    <div class="grades-panel">
+                        <h3>📋 Выставление оценок</h3>
+                        <div class="grade-filters">
+                            <input type="text" id="teacher-student-search" placeholder="🔍 Поиск студента..." class="search-input">
+                        </div>
+                        <div id="teacher-students-list" class="students-list"></div>
+                    </div>
+                    
+                    <button class="back-button" onclick="showMainPage()">← Вернуться назад</button>
+                </div>
+            </div>
+            
+            <!-- Регистрация -->
+            <div id="teacher-register" style="display:none">
+                <div class="form-card">
+                    <h2>📝 Регистрация преподавателя</h2>
+                    <form id="register-form">
+                        <input type="text" id="reg-fullname" placeholder="ФИО" required>
+                        <input type="text" id="reg-curator" placeholder="Куратор группы" required>
+                        <input type="text" id="reg-subject" placeholder="Направление (что преподаёте)" required>
+                        <input type="email" id="reg-email" placeholder="Email" required>
+                        <input type="password" id="reg-password" placeholder="Пароль (минимум 8 символов)" required>
+                        <button type="submit" class="teacher-btn">✅ Зарегистрироваться</button>
+                    </form>
+                    <button class="back-button" onclick="showMainPage()">← Вернуться назад</button>
+                </div>
+            </div>
+            
+            <!-- Вход -->
+            <div id="teacher-login" style="display:none">
+                <div class="form-card">
+                    <h2>🔐 Вход для преподавателя</h2>
+                    <form id="login-form">
+                        <select id="teacher-select" required>
+                            <option value="">Выберите преподавателя</option>
+                        </select>
+                        <input type="password" id="login-password" placeholder="Пароль" required>
+                        <button type="submit" class="teacher-btn">🔑 Войти</button>
+                    </form>
+                    <button class="back-button" onclick="showMainPage()">← Вернуться назад</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА СТУДЕНТА -->
+    <div id="student-page" style="display:none">
+        <div class="main-content">
+            <!-- Кабинет студента с оценками -->
+            <div id="student-cabinet" style="display:none">
+                <div class="student-dashboard">
+                    <div class="portfolio-card">
+                        <div class="avatar-container">
+                            <img id="student-avatar" class="avatar-img" src="https://via.placeholder.com/120">
+                            <label for="student-avatar-upload" class="avatar-label">📷 Загрузить аватар</label>
+                            <input type="file" id="student-avatar-upload" accept="image/*" style="display:none">
+                        </div>
+                        <div class="info-row"><span class="info-label">👨‍🎓 Имя:</span><span id="student-name"></span></div>
+                        <div class="info-row"><span class="info-label">📖 Группа:</span><span id="student-group"></span></div>
+                        <div class="info-row"><span class="info-label">📧 Email:</span><span id="student-email"></span></div>
+                    </div>
+                    
+                    <div class="grades-panel">
+                        <h3>📊 Мои оценки</h3>
+                        <div id="student-grades-list" class="grades-list"></div>
+                    </div>
+                    
+                    <div class="teachers-panel">
+                        <h3>👨‍🏫 Мои преподаватели</h3>
+                        <div id="student-teachers-list" class="teachers-list"></div>
+                    </div>
+                    
+                    <button class="back-button" onclick="showMainPage()">← Вернуться назад</button>
+                </div>
+            </div>
+            
+            <!-- Регистрация -->
+            <div id="student-register" style="display:none">
+                <div class="form-card">
+                    <h2>📝 Регистрация студента</h2>
+                    <form id="student-register-form">
+                        <input type="text" id="student-firstname" placeholder="Имя" required>
+                        <input type="text" id="student-lastname" placeholder="Фамилия" required>
+                        <input type="text" id="student-group-input" placeholder="Группа" required>
+                        <input type="email" id="student-email-input" placeholder="Email" required>
+                        <input type="password" id="student-password" placeholder="Пароль (минимум 8 символов)" required>
+                        <select id="student-curator" required>
+                            <option value="">Выберите куратора</option>
+                        </select>
+                        <button type="submit" class="student-btn">✅ Зарегистрироваться</button>
+                    </form>
+                    <button class="back-button" onclick="showMainPage()">← Вернуться назад</button>
+                </div>
+            </div>
+            
+            <!-- Вход -->
+            <div id="student-login" style="display:none">
+                <div class="form-card">
+                    <h2>🔐 Вход для студента</h2>
+                    <form id="student-login-form">
+                        <input type="email" id="student-email-login" placeholder="Email" required>
+                        <input type="password" id="student-login-password" placeholder="Пароль" required>
+                        <button type="submit" class="student-btn">🔑 Войти</button>
+                    </form>
+                    <button id="show-register-btn" class="secondary-button" style="background: #28a745; margin-top: 10px;">➕ Создать новый аккаунт</button>
+                    <button class="back-button" onclick="showMainPage()">← Вернуться назад</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА ЮРИЧА -->
+    <div id="yurich-page" style="display:none">
+        <div class="main-content">
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>🖥️ Yurich Terminal v2.0</span>
+                </div>
+                <div class="terminal-output" id="terminal-output">
+                    <div class="terminal-line">Добро пожаловать в терминал Юрича!</div>
+                    <div class="terminal-line">Введите 'help' для списка команд</div>
+                </div>
+                <div class="terminal-prompt">
+                    <span>yurich@kodelab:~$</span>
+                    <input type="text" id="terminal-input" autofocus>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФУТЕР -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://vk.com/blackk0rsar" target="_blank">📘 ВКонтакте</a>
+                <a href="https://t.me/dmlixxx" target="_blank">🐦 Telegram</a>
+            </div>
+            <div class="footer-divider"></div>
+            <p>© 2026 KodeLab. Все права защищены.</p>
+            <button class="admin-panel-btn" id="adminPanelBtn">⚙️ Админ-панель</button>
+        </div>
+    </footer>
+
+    <!-- АДМИН-ПАНЕЛЬ -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <div id="adminAuth">
+                <h2>👑 Панель администратора</h2>
+                <input type="password" id="adminSecret" placeholder="Секретный код">
+                <div id="adminError" class="error-message"></div>
+                <button id="adminAuthBtn" class="admin-btn">Войти</button>
+                <button id="adminCloseBtn" class="back-button">Закрыть</button>
+            </div>
+            <div id="adminPanel" style="display:none">
+                <h2>👑 Управление пользователями</h2>
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="teachers">👨‍🏫 Преподаватели</button>
+                    <button class="admin-tab" data-tab="students">👨‍🎓 Студенты</button>
+                </div>
+                <div id="adminTeachersTab">
+                    <div id="teacherListContainer"></div>
+                </div>
+                <div id="adminStudentsTab" style="display:none">
+                    <div id="studentListContainer"></div>
+                </div>
+                <button id="adminLogoutBtn" class="admin-logout">🚪 Выйти</button>
+                <button id="adminClosePanelBtn" class="back-button">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/teacher.js"></script>
+    <script src="js/student.js"></script>
+    <script src="js/yurich.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
